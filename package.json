@@ -1,0 +1,11 @@
+{
+  "name": "MMM-Claude",
+  "version": "1.0.0",
+  "description": "MagicMirror² Modul für Claude AI Chat mit eingebetteter DE/CH Tastatur (Anthropic)",
+  "main": "MMM-Claude.js",
+  "scripts": {},
+  "keywords": ["MagicMirror", "Claude", "Anthropic", "AI", "Chat"],
+  "author": "Marco Paroti",
+  "license": "MIT",
+  "dependencies": {}
+}

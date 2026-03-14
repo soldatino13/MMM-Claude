@@ -1,241 +1,302 @@
-/* MMM-Claude — Mirror-optimiertes Dark UI, MMM-Keyboard Edition */
+/* ═══════════════════════════════════════════════
+   MMM-Claude — Mirror Dark UI + Inline Keyboard
+   ═══════════════════════════════════════════════ */
 
-.mmm-claude-wrapper {
+/* ── Wrapper ───────────────────────────────────── */
+.mmc-wrap {
   display: flex;
   flex-direction: column;
-  width: 420px;
-  max-width: 95vw;
-  background: rgba(10, 10, 20, 0.82);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 14px;
-  padding: 0;
+  width: 480px;
+  max-width: 96vw;
+  background: rgba(8, 8, 18, 0.88);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  overflow: hidden;
   font-family: "Roboto", "Helvetica Neue", sans-serif;
   color: #e8e8f0;
-  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
-  overflow: hidden;
-  backdrop-filter: blur(12px);
+  box-shadow: 0 10px 50px rgba(0,0,0,0.7);
+  backdrop-filter: blur(14px);
 }
 
-/* Header */
-.mmm-claude-header {
+/* ── Header ────────────────────────────────────── */
+.mmc-header {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 12px 16px;
-  font-size: 0.85em;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  padding: 11px 16px;
+  font-size: 0.78em;
+  font-weight: 700;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.45);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  background: rgba(255, 255, 255, 0.03);
+  color: rgba(255,255,255,0.38);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.025);
 }
 
-.mmm-claude-icon {
-  color: #a78bfa;
-  font-size: 1.1em;
-}
+.mmc-icon { color: #a78bfa; font-size: 1.15em; }
 
-/* Chat-Bereich */
-.mmm-claude-chat {
-  flex: 1;
-  min-height: 220px;
-  max-height: 340px;
+/* ── Chat ──────────────────────────────────────── */
+.mmc-chat {
+  min-height: 180px;
+  max-height: 300px;
   overflow-y: auto;
   padding: 14px 12px;
   display: flex;
   flex-direction: column;
   gap: 10px;
   scrollbar-width: thin;
-  scrollbar-color: rgba(167, 139, 250, 0.3) transparent;
+  scrollbar-color: rgba(167,139,250,0.25) transparent;
 }
+.mmc-chat::-webkit-scrollbar { width: 3px; }
+.mmc-chat::-webkit-scrollbar-thumb { background: rgba(167,139,250,0.3); border-radius: 3px; }
 
-.mmm-claude-chat::-webkit-scrollbar { width: 4px; }
-.mmm-claude-chat::-webkit-scrollbar-thumb {
-  background: rgba(167, 139, 250, 0.3);
-  border-radius: 4px;
-}
-
-/* Bubbles */
-.mmm-claude-bubble {
+/* ── Bubbles ───────────────────────────────────── */
+.mmc-bubble {
   display: flex;
   flex-direction: column;
-  max-width: 88%;
+  max-width: 86%;
   gap: 3px;
-  animation: bubbleIn 0.2s ease-out;
+  animation: bubbleIn 0.18s ease-out;
 }
-
 @keyframes bubbleIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from { opacity:0; transform:translateY(5px); }
+  to   { opacity:1; transform:translateY(0); }
 }
+.mmc-bubble-user      { align-self:flex-end;  align-items:flex-end; }
+.mmc-bubble-assistant { align-self:flex-start; align-items:flex-start; }
 
-.mmm-claude-bubble--user    { align-self: flex-end;  align-items: flex-end; }
-.mmm-claude-bubble--assistant { align-self: flex-start; align-items: flex-start; }
-
-.mmm-claude-label {
-  font-size: 0.7em;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  opacity: 0.5;
+.mmc-label {
+  font-size: 0.68em;
+  font-weight: 700;
+  letter-spacing: 0.07em;
   text-transform: uppercase;
-  padding: 0 4px;
+  opacity: 0.45;
+  padding: 0 5px;
 }
 
-.mmm-claude-text {
+.mmc-text {
   padding: 9px 13px;
   border-radius: 12px;
-  line-height: 1.5;
+  line-height: 1.55;
   white-space: pre-wrap;
   word-break: break-word;
 }
-
-.mmm-claude-bubble--user .mmm-claude-text {
-  background: rgba(124, 58, 237, 0.35);
-  border: 1px solid rgba(167, 139, 250, 0.25);
-  color: #f0ecff;
+.mmc-bubble-user .mmc-text {
+  background: rgba(109,40,217,0.38);
+  border: 1px solid rgba(167,139,250,0.22);
+  color: #ede9ff;
   border-bottom-right-radius: 4px;
 }
-
-.mmm-claude-bubble--assistant .mmm-claude-text {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #dde0ec;
+.mmc-bubble-assistant .mmc-text {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: #d8dcea;
   border-bottom-left-radius: 4px;
 }
 
-/* Typing-Indikator */
-.mmm-claude-typing {
+/* ── Typing dots ───────────────────────────────── */
+.mmc-typing {
   display: flex;
   align-items: center;
   gap: 5px;
-  padding: 6px 16px 4px;
-  height: 28px;
+  padding: 5px 16px;
+  height: 26px;
 }
-
-.mmm-claude-typing.hidden { visibility: hidden; }
-
-.mmm-claude-typing span {
+.mmc-typing.hidden { visibility:hidden; }
+.mmc-typing span {
   display: inline-block;
-  width: 7px;
-  height: 7px;
+  width: 6px; height: 6px;
   border-radius: 50%;
   background: #a78bfa;
-  opacity: 0.4;
-  animation: blink 1.2s infinite;
+  opacity: 0.35;
+  animation: dot 1.2s infinite;
+}
+.mmc-typing span:nth-child(2) { animation-delay:.2s; }
+.mmc-typing span:nth-child(3) { animation-delay:.4s; }
+@keyframes dot {
+  0%,80%,100% { opacity:.2; transform:scale(.85); }
+  40%         { opacity:1;  transform:scale(1.15); }
 }
 
-.mmm-claude-typing span:nth-child(2) { animation-delay: 0.2s; }
-.mmm-claude-typing span:nth-child(3) { animation-delay: 0.4s; }
-
-@keyframes blink {
-  0%, 80%, 100% { opacity: 0.2; transform: scale(0.85); }
-  40%            { opacity: 1;   transform: scale(1.1); }
-}
-
-/* Input-Bereich */
-.mmm-claude-input-row {
+/* ── Input row ─────────────────────────────────── */
+.mmc-input-row {
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 10px 12px 12px;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-  background: rgba(255, 255, 255, 0.02);
+  padding: 9px 12px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.018);
 }
 
-/* Input-Display (kein echtes textarea — MMM-Keyboard übernimmt) */
-.mmm-claude-input {
+/* ── Field (fake textarea) ─────────────────────── */
+.mmc-field {
   flex: 1;
   min-height: 40px;
-  background: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 10px;
   padding: 10px 13px;
-  color: #e8e8f0;
-  font-size: 0.95em;
-  font-family: inherit;
-  line-height: 1.4;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.11);
+  border-radius: 10px;
   cursor: text;
-  transition: border-color 0.2s, background 0.2s;
+  font-size: 0.95em;
+  line-height: 1.45;
+  color: #e8e8f0;
   word-break: break-word;
+  transition: border-color .2s, background .2s;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 0;
 }
-
-.mmm-claude-input:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(167, 139, 250, 0.35);
+.mmc-field:hover,
+.mmc-field-active {
+  border-color: rgba(167,139,250,0.5);
+  background: rgba(255,255,255,0.1);
 }
-
-/* Aktiver Zustand wenn Keyboard offen — optional per JS-Klasse steuerbar */
-.mmm-claude-input--active {
-  border-color: rgba(167, 139, 250, 0.55);
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.mmm-claude-placeholder {
-  color: rgba(255, 255, 255, 0.25);
+.mmc-placeholder {
+  color: rgba(255,255,255,0.22);
   font-style: italic;
+  pointer-events: none;
 }
+.mmc-input-text { color: #e8e8f0; }
+.mmc-cursor {
+  color: #a78bfa;
+  font-weight: 300;
+  animation: blink-cursor .9s step-end infinite;
+  margin-left: 1px;
+}
+@keyframes blink-cursor { 0%,100%{opacity:1;} 50%{opacity:0;} }
 
-/* Buttons */
-.mmm-claude-btn {
-  width: 42px;
-  height: 42px;
+/* ── Buttons ───────────────────────────────────── */
+.mmc-btn {
+  width: 42px; height: 42px;
   border: none;
   border-radius: 10px;
   cursor: pointer;
   font-size: 1.05em;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.15s, transform 0.1s, opacity 0.15s;
+  display: flex; align-items:center; justify-content:center;
   flex-shrink: 0;
+  transition: background .15s, transform .1s, opacity .15s;
 }
+.mmc-btn:active { transform: scale(.91); }
 
-.mmm-claude-btn:active { transform: scale(0.92); }
-
-.mmm-claude-send {
-  background: rgba(124, 58, 237, 0.5);
-  border: 1px solid rgba(167, 139, 250, 0.4);
+.mmc-btn-send {
+  background: rgba(109,40,217,0.55);
+  border: 1px solid rgba(167,139,250,0.4);
   color: #fff;
 }
+.mmc-btn-send:hover { background: rgba(109,40,217,0.8); }
+.mmc-btn-send:disabled { opacity:.4; cursor:not-allowed; }
 
-.mmm-claude-send:hover { background: rgba(124, 58, 237, 0.75); }
-
-.mmm-claude-send:disabled,
-.mmm-claude-send--loading {
-  opacity: 0.45;
-  cursor: not-allowed;
-}
-
-/* Spinner im Send-Button während Laden */
-.mmm-claude-send--loading::after {
-  content: "";
-  display: block;
-  width: 14px;
-  height: 14px;
-  border: 2px solid rgba(255,255,255,0.3);
+/* Spinner when loading */
+.mmc-btn-loading { font-size:0 !important; }
+.mmc-btn-loading::after {
+  content:"";
+  display:block;
+  width:15px; height:15px;
+  border: 2px solid rgba(255,255,255,0.25);
   border-top-color: #fff;
   border-radius: 50%;
-  animation: spin 0.7s linear infinite;
+  animation: spin .65s linear infinite;
 }
+@keyframes spin { to { transform:rotate(360deg); } }
 
-.mmm-claude-send--loading { font-size: 0; } /* ➤ ausblenden während Spinner */
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
+.mmc-btn-clear {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.09);
+  color: rgba(255,255,255,0.28);
+  font-size: .85em;
 }
-
-.mmm-claude-clear {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.3);
-  font-size: 0.85em;
-}
-
-.mmm-claude-clear:hover {
-  background: rgba(255, 80, 80, 0.15);
-  border-color: rgba(255, 80, 80, 0.3);
+.mmc-btn-clear:hover {
+  background: rgba(239,68,68,0.15);
+  border-color: rgba(239,68,68,0.3);
   color: #f87171;
+}
+
+/* ══════════════════════════════════════════════
+   KEYBOARD
+   ══════════════════════════════════════════════ */
+.mmc-kb {
+  padding: 10px 8px 12px;
+  border-top: 1px solid rgba(255,255,255,0.07);
+  background: rgba(0,0,0,0.35);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  /* Smooth open/close */
+  max-height: 260px;
+  overflow: hidden;
+  transition: max-height .25s ease, padding .25s ease, opacity .2s ease;
+  opacity: 1;
+}
+.mmc-kb-hidden {
+  max-height: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  opacity: 0 !important;
+  pointer-events: none;
+}
+
+/* ── Keyboard rows ─────────────────────────────── */
+.mmc-kb-row {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+
+/* ── Keys ──────────────────────────────────────── */
+.mmc-key {
+  height: 44px;
+  min-width: 38px;
+  padding: 0 6px;
+  background: rgba(255,255,255,0.09);
+  border: 1px solid rgba(255,255,255,0.13);
+  border-radius: 8px;
+  color: #e8e8f0;
+  font-size: 0.95em;
+  font-family: inherit;
+  cursor: pointer;
+  display: flex; align-items:center; justify-content:center;
+  transition: background .1s, transform .08s, border-color .1s;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.mmc-key:active {
+  transform: scale(.9);
+  background: rgba(167,139,250,0.3);
+}
+
+/* Wide keys (⌫, ⇧, 123/ABC) */
+.mmc-key-wide {
+  min-width: 54px;
+  font-size: 0.85em;
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.1);
+}
+
+/* Spacebar */
+.mmc-key-space {
+  flex: 1;
+  max-width: 210px;
+  font-size: 0.75em;
+  letter-spacing: .05em;
+  color: rgba(255,255,255,0.45);
+  background: rgba(255,255,255,0.06);
+}
+
+/* Enter / Senden */
+.mmc-key-enter {
+  min-width: 100px;
+  background: rgba(109,40,217,0.5);
+  border-color: rgba(167,139,250,0.4);
+  color: #fff;
+  font-size: 0.85em;
+  font-weight: 600;
+}
+.mmc-key-enter:active { background: rgba(109,40,217,0.8); }
+
+/* Shift active */
+.mmc-key-active {
+  background: rgba(167,139,250,0.3) !important;
+  border-color: rgba(167,139,250,0.55) !important;
+  color: #c4b5fd !important;
 }

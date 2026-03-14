@@ -1,12 +1,12 @@
 # MMM-Claude
 
-MagicMirror² Modul für Claude AI — Chat-Interface direkt auf dem Spiegel.  
-Integriert mit **MMM-Keyboard** (lavolp3) für Touch-Eingabe.
+MagicMirror² Modul für Claude AI — Chat-Interface direkt auf dem Spiegel mit eingebetteter Tastatur.
 
 ## Features
 
-- 💬 Chat-UI mit Touch-optimiertem Eingabefeld
-- ⌨️ MMM-Keyboard Integration (kein eigenes Keyboard-Overlay)
+- 💬 Touch-optimiertes Chat-UI mit Bubble-Design
+- ⌨️ Eingebettete DE/CH Tastatur (klappt inline auf, keine externe Abhängigkeit)
+- 🔢 Buchstaben- und Zahlen-/Sonderzeichen-Layout
 - ✦ Anthropic Claude API (konfigurierbares Modell)
 - 🌑 Mirror-optimiertes Dark-Theme (violett/lila Akzente)
 - 🔄 Session-only Verlauf (kein persist über Neustarts)
@@ -14,24 +14,23 @@ Integriert mit **MMM-Keyboard** (lavolp3) für Touch-Eingabe.
 ## Voraussetzungen
 
 - MagicMirror² installiert
-- [MMM-Keyboard](https://github.com/lavolp3/MMM-Keyboard) installiert und aktiv
+- Anthropic API Key: https://console.anthropic.com/
+
+Keine weiteren Abhängigkeiten — kein `npm install` nötig.
 
 ## Installation
 
 ```bash
 cd ~/MagicMirror/modules
-# Ordner reinkopieren oder:
 git clone https://github.com/soldatino13/MMM-Claude.git
 ```
-
-Kein `npm install` nötig — verwendet nur Node.js built-in `https`.
 
 ## Konfiguration in `config.js`
 
 ```js
 {
   module: "MMM-Claude",
-  position: "bottom_right",   // oder jede andere MagicMirror-Position
+  position: "bottom_center",  // oder jede andere MagicMirror-Position
   config: {
     apiKey: "sk-ant-...",     // ← Anthropic API Key
     model: "claude-opus-4-5",
@@ -54,48 +53,52 @@ Kein `npm install` nötig — verwendet nur Node.js built-in `https`.
 | `systemPrompt` | (s.o.) | Systemkontext für Claude |
 | `fontSize` | `"16px"` | Schriftgrösse des Moduls |
 | `title` | `"Claude AI"` | Header-Titel |
-| `placeholder` | `"Tippe hier..."` | Placeholder-Text |
+| `placeholder` | `"Tippe hier..."` | Placeholder-Text im Eingabefeld |
 
-## MMM-Keyboard Integration
+## Bedienung
 
-Das Modul kommuniziert mit MMM-Keyboard über MagicMirror-Notifications:
+| Aktion | Funktion |
+|---|---|
+| Tap auf Eingabefeld | Tastatur aufklappen |
+| `⇧` | Shift — nächster Buchstabe gross, dann auto-zurück |
+| `⌫` | Letztes Zeichen löschen |
+| `↵ Senden` | Nachricht senden + Tastatur zuklappen |
+| `123` / `ABC` | Wechsel zwischen Buchstaben und Zahlen/Sonderzeichen |
+| `✕` (oben rechts) | Chat-Verlauf löschen |
 
-| Notification | Richtung | Bedeutung |
-|---|---|---|
-| `SHOW_KEYBOARD` | → Keyboard | Keyboard einblenden (bei Tap auf Eingabefeld) |
-| `HIDE_KEYBOARD` | → Keyboard | Keyboard ausblenden (nach Absenden) |
-| `KEYBOARD_INPUT` | ← Keyboard | Aktueller Eingabetext + Tastendruck |
-| `KEYBOARD_CLOSED` | ← Keyboard | Keyboard geschlossen (optional) |
+## Tastatur-Layout
 
-MMM-Keyboard muss mit `key: "MMM-Claude"` konfiguriert sein, damit die Eingaben
-nur an dieses Modul weitergeleitet werden:
-
-```js
-// MMM-Keyboard Konfiguration (Beispiel):
-{
-  module: "MMM-Keyboard",
-  config: {
-    // Die Keys entsprechen den Modul-IDs die das Keyboard nutzen
-    // MMM-Bring und MMM-Claude nutzen unterschiedliche Keys
-  }
-}
+```
+┌─────────────────────────────────────────┐
+│  q  w  e  r  t  z  u  i  o  p   ⌫      │
+│  a  s  d  f  g  h  j  k  l  ä   ↵      │
+│  ⇧  y  x  c  v  b  n  m  ö  ü   ⇧      │
+│  123      Leertaste        .            │
+└─────────────────────────────────────────┘
 ```
 
 ## Datei-Struktur
 
 ```
 MMM-Claude/
-├── MMM-Claude.js       ← Frontend Modul (MagicMirror API)
-├── node_helper.js      ← Backend (Anthropic API via https)
-├── MMM-Claude.css      ← Styling
+├── MMM-Claude.js     ← Frontend Modul + eingebettete Tastatur
+├── node_helper.js    ← Backend (Anthropic API via Node.js https)
+├── MMM-Claude.css    ← Styling
 ├── package.json
+├── LICENSE
 └── README.md
 ```
 
-## API Key
+## API Key sicher aufbewahren
 
-Anthropic API Keys: https://console.anthropic.com/
+Den Key niemals in git committen. Empfohlene Varianten:
 
-Den Key niemals in git committen — entweder:
-- Direkt in `config.js` (lokal, nicht gepusht)
-- Oder als Umgebungsvariable über `process.env.ANTHROPIC_KEY` (dann `node_helper.js` anpassen)
+**Option A** — Direkt in `config.js` (lokal, nicht ins Repo gepusht):
+```js
+apiKey: "sk-ant-api03-..."
+```
+
+**Option B** — Umgebungsvariable (dann `node_helper.js` anpassen):
+```js
+apiKey: process.env.ANTHROPIC_KEY
+```
