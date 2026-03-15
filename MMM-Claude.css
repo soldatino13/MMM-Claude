@@ -6,7 +6,7 @@
 .mmc-wrap {
   display: flex;
   flex-direction: column;
-  width: 400px;
+  width: 100%;
   max-width: 96vw;
   background: rgba(8, 8, 18, 0.88);
   border: 1px solid rgba(255,255,255,0.08);

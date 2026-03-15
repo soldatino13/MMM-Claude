@@ -8,6 +8,7 @@ Module.register("MMM-Claude", {
     placeholder: "Tippe hier...",
     title: "Claude AI",
     fontSize: "16px",
+    enableWebSearch: false,   // true = Websuche aktivieren (kostet mehr Tokens)
   },
 
   // ── State ──────────────────────────────────────────────
@@ -224,11 +225,12 @@ Module.register("MMM-Claude", {
     if (btn) { btn.disabled = true; btn.classList.add("mmc-btn-loading"); }
 
     this.sendSocketNotification("CLAUDE_SEND", {
-      apiKey:       this.config.apiKey,
-      model:        this.config.model,
-      maxTokens:    this.config.maxTokens,
-      systemPrompt: this.config.systemPrompt,
-      messages:     this.history.map(m => ({ role: m.role, content: m.content })),
+      apiKey:          this.config.apiKey,
+      model:           this.config.model,
+      maxTokens:       this.config.maxTokens,
+      systemPrompt:    this.config.systemPrompt,
+      messages:        this.history.map(m => ({ role: m.role, content: m.content })),
+      enableWebSearch: this.config.enableWebSearch,
     });
   },
 
