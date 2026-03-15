@@ -250,6 +250,17 @@ Module.register("MMM-Claude", {
     if (btn) { btn.disabled = false; btn.classList.remove("mmc-btn-loading"); }
   },
 
+  // ── Simple Markdown → HTML ─────────────────────────────
+  _md(text) {
+    return text
+      .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+      .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+      .replace(/\*(.+?)\*/g, "<em>$1</em>")
+      .replace(/^- (.+)$/gm, "<li>$1</li>")
+      .replace(/(<li>[\s\S]*<\/li>)/, "<ul>$1</ul>")
+      .replace(/\n/g, "<br>");
+  },
+
   // ── Helpers ────────────────────────────────────────────
   _bubble(role, content) {
     const b = document.createElement("div");
@@ -259,7 +270,11 @@ Module.register("MMM-Claude", {
     lbl.textContent = role === "user" ? "Du" : "Claude";
     const txt = document.createElement("div");
     txt.className = "mmc-text";
-    txt.textContent = content;
+    if (role === "assistant") {
+      txt.innerHTML = this._md(content);
+    } else {
+      txt.textContent = content;
+    }
     b.appendChild(lbl);
     b.appendChild(txt);
     return b;

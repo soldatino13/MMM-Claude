@@ -6,7 +6,7 @@
 .mmc-wrap {
   display: flex;
   flex-direction: column;
-  width: 480px;
+  width: 400px;
   max-width: 96vw;
   background: rgba(8, 8, 18, 0.88);
   border: 1px solid rgba(255,255,255,0.08);
@@ -93,6 +93,12 @@
   color: #d8dcea;
   border-bottom-left-radius: 4px;
 }
+
+/* Markdown styles */
+.mmc-text strong { color: #e8e8f0; font-weight: 700; }
+.mmc-text em { font-style: italic; opacity: 0.85; }
+.mmc-text ul { margin: 4px 0 4px 16px; padding: 0; list-style: disc; }
+.mmc-text li { margin: 2px 0; }
 
 /* ── Typing dots ───────────────────────────────── */
 .mmc-typing {
@@ -245,9 +251,9 @@
 
 /* ── Keys ──────────────────────────────────────── */
 .mmc-key {
-  height: 44px;
-  min-width: 38px;
-  padding: 0 6px;
+  height: 40px;
+  min-width: 32px;
+  padding: 0 4px;
   background: rgba(255,255,255,0.09);
   border: 1px solid rgba(255,255,255,0.13);
   border-radius: 8px;
@@ -267,7 +273,7 @@
 
 /* Wide keys (⌫, ⇧, 123/ABC) */
 .mmc-key-wide {
-  min-width: 54px;
+  min-width: 46px;
   font-size: 0.85em;
   background: rgba(255,255,255,0.06);
   border-color: rgba(255,255,255,0.1);
@@ -285,7 +291,7 @@
 
 /* Enter / Senden */
 .mmc-key-enter {
-  min-width: 100px;
+  min-width: 88px;
   background: rgba(109,40,217,0.5);
   border-color: rgba(167,139,250,0.4);
   color: #fff;
