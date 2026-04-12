@@ -8,7 +8,9 @@ Module.register("MMM-Claude", {
     placeholder: "Tippe hier...",
     title: "Claude AI",
     fontSize: "16px",
-    enableWebSearch: false,   // true = Websuche aktivieren (kostet mehr Tokens)
+    enableWebSearch: false,
+    // Prefix für Comic-Generierung (case-insensitive)
+    comicPrefix: "XXX",
   },
 
   // ── State ──────────────────────────────────────────────
@@ -131,7 +133,6 @@ Module.register("MMM-Claude", {
         const btn = document.createElement("button");
         btn.className = "mmc-key";
 
-        // Display label
         let label = key;
         if (key === "  ") { label = "Leertaste"; btn.classList.add("mmc-key-space"); }
         else if (key === "⌫") btn.classList.add("mmc-key-wide");
@@ -190,7 +191,6 @@ Module.register("MMM-Claude", {
     if (this.currentInput === "") {
       el.innerHTML = `<span class="mmc-placeholder">${this.config.placeholder}</span>`;
     } else {
-      // Text + blinkender Cursor
       el.innerHTML = `<span class="mmc-input-text">${this._esc(this.currentInput)}</span><span class="mmc-cursor">|</span>`;
     }
   },
@@ -217,6 +217,36 @@ Module.register("MMM-Claude", {
     this.currentInput = "";
     this._renderField();
 
+    // ── XXX-Prefix: Comic-Generierung ──────────────────────
+    const prefix = (this.config.comicPrefix || "XXX").toUpperCase();
+    const upperText = text.toUpperCase();
+
+    if (upperText.startsWith(prefix + " ") || upperText === prefix) {
+      const comicText = text.slice(prefix.length).trim();
+      if (!comicText) {
+        this._appendBubble("assistant", "Bitte gib nach " + prefix + " einen Text ein.");
+        return;
+      }
+
+      // Zeige Bestätigung im Chat
+      this._appendBubble("user", text);
+      this._appendBubble("assistant",
+        `Comic-Auftrag gesetzt: "${comicText}" – jetzt auf den Comic-Button drücken.`
+      );
+
+      // Sende an MMM-ComicButton
+      this.sendNotification("COMIC_HEADLINE_SELECTED", {
+        title:    comicText,
+        source:   "MMM-Claude",
+        category: "claude",
+        link:     "",
+        pubDate:  new Date().toISOString(),
+      });
+
+      return; // Nicht an Claude API senden
+    }
+
+    // ── Normaler Claude-Request ────────────────────────────
     this.history.push({ role: "user", content: text });
     this._appendBubble("user", text);
     this._showTyping(true);
@@ -242,7 +272,7 @@ Module.register("MMM-Claude", {
       this._resetSend();
     } else if (notification === "CLAUDE_ERROR") {
       this._showTyping(false);
-      this._appendBubble("assistant", "⚠️ " + payload.error);
+      this._appendBubble("assistant", "Fehler: " + payload.error);
       this._resetSend();
     }
   },
